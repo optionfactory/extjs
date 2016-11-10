@@ -11,7 +11,7 @@
     <packaging>jar</packaging>
     <groupId>org.webjars</groupId>
     <artifactId>extjs</artifactId>
-    <version>6.2.1-SNAPSHOT</version>
+    <version>6.2.0-SNAPSHOT</version>
     <name>Ext JS</name>
     <description>WebJar for Ext JS</description>
     <url>http://webjars.org</url>
@@ -50,6 +50,7 @@
 
     <build>
         <plugins>
+            <!--
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>wagon-maven-plugin</artifactId>
@@ -68,6 +69,7 @@
                     </execution>
                 </executions>
             </plugin>
+            -->
             <plugin>
                 <artifactId>maven-antrun-plugin</artifactId>
                 <version>1.7</version>
@@ -80,14 +82,15 @@
                                 <echo message="unzip archive and file files" />
                                 <unzip src="${project.build.directory}/${project.artifactId}.zip" dest="${destDir}">
                                     <patternset>
-                                        <exclude name="${upstream.directory}/docs/**" />
-                                        <exclude name="${upstream.directory}/builds/**" />
-                                        <exclude name="${upstream.directory}/examples/**" />
-                                        <exclude name="${upstream.directory}/**/*-classic-sandbox*" />
-                                        <exclude name="${upstream.directory}/ext*rtl*.js" />
-                                        <exclude name="${upstream.directory}/ext*debug-w-comments.js" />
-                                        <exclude name="${upstream.directory}/**/*rtl.css" />
-                                        <exclude name="${upstream.directory}/**/*rtl-debug.css" />
+                                        <include name="${upstream.directory}/build/**" />
+                                        <exclude name="${upstream.directory}/build/theme-*/**" />
+                                        <exclude name="${upstream.directory}/build/font-*/**" />
+                                        <exclude name="${upstream.directory}/build/legacy/**" />
+                                        <exclude name="${upstream.directory}/build/examples/**" />
+                                        <exclude name="${upstream.directory}/build/welcome/**" />
+                                        <exclude name="${upstream.directory}/**/*sandbox*" />
+                                        <exclude name="${upstream.directory}/**/*rtl*" />
+                                        <exclude name="${upstream.directory}/**/*.html" />
                                     </patternset>
                                     <mapper>
                                         <!-- Strip leading directory off each path -->
@@ -95,16 +98,6 @@
                                         <cutdirsmapper dirs="1" />
                                     </mapper>
                                 </unzip>
-                                <!-- Pickup examples/ux also and place in src/ux -->
-                                <unzip src="${project.build.directory}/${project.artifactId}.zip" dest="${destDir}/src">
-                                    <patternset>
-                                        <include name="${upstream.directory}/examples/ux/**" />
-                                    </patternset>
-                                    <mapper>
-                                        <cutdirsmapper dirs="2" />
-                                    </mapper>
-                                </unzip>
-                                <echo message="unzip done" />
                             </target>
                         </configuration>
                     </execution>
